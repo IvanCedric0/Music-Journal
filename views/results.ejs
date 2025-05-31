@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/results.css"/>
+    <title>Results</title>
+</head>
+<body>
+    <h1 class="title">Results</h1>
+<!-- Loop throuh each API result and display coverArt and result informations -->
+<% data.forEach((element) => { %>
+    <div class="search_results">
+        <img src="<%= element.artworkUrl100 %>" alt="" srcset="" class="results_cover">
+        <h2 class="result_title"><%= element.trackName %> - <%= element.artistName %></h2>
+        <h2 class="result_kind">Kind: <%= element.kind %></h2>
+        <form class="search_submit" action="/save" method="POST">
+            <input type="hidden" name="title" value="<%= element.trackName %>">
+            <input type="hidden" name="artist" value="<%= element.artistName %>">
+            <input type="hidden" name="category" value="<%= element.kind %>">
+            <input type="hidden" name="coverArt" value="<%= element.artworkUrl100 %>">
+            <button type="submit">Add to journal</button>
+        </form>
+    </div>
+    
+<%  }); %>
+</body>
+</html>
