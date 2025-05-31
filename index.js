@@ -17,8 +17,15 @@ const db = new  pg.Client({
 
 db.connect();
 
-app.get("/", (req, res) =>{
-    res.render("index.ejs")
+let songs = [
+
+];
+
+app.get("/", async (req, res) =>{
+    const result = await db.query("SELECT * FROM songs");
+    songs = result.rows;
+    console.log(songs);
+    res.render("index.ejs", {songs: songs});
 });
 
 app.get("/search/results", async(req, res) =>{
@@ -27,7 +34,7 @@ app.get("/search/results", async(req, res) =>{
         console.log(userInput)
         try {
             const result = await axios.get(`https://itunes.apple.com/search?term=${userInput}`);
-            console.log(result.data.results); 
+            
             res.render("results.ejs", {data : result.data.results});
         }catch (err){
             console.log(err)
@@ -47,6 +54,14 @@ app.post("/save", (req, res) =>{
 app.post("/add", async (req, res) =>{
     const data = req.body;
     console.log(data);
+    try{
+        await db.query("INSERT INTO songs (title, artist, category, release_date, notes, rating, cover_url, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), NOW()) ", 
+        [data.title, data.artist, data.category, data.release_date, data.notes, parseInt(data.rating) , data.coverArt]);
+        res.redirect("/")
+    } catch(err) {
+        console.log(err.message)
+    }
+    
 });
 
 app.listen(port, () =>{
