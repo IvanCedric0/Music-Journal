@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save</title>
+</head>
+<body>
+    Ready to save the song?
+    <form action="/add" method="POST">
+        <!-- Hidden API Inputs -->
+         <input type="hidden" name="title" value="<%= element.title %>">
+            <input type="hidden" name="artist" value="<%= element.artist %>">
+            <input type="hidden" name="category" value="<%= element.category %>">
+            <input type="hidden" name="coverArt" value="<%= element.coverArt %>">
+            <input type="hidden" name="release_date" value="<%= element.release_date %>">
+        <!-- Visible User inputs -->
+            <label for="notes">Enter your Notes</label>
+            <textarea name="notes"  required></textarea>
+
+            <label for="rating">Your Rating</label>
+            <select name="rating" required>
+                <option value="">Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <button type="submit">Save Song</button>
+    </form>
+</body>
+</html>

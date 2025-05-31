@@ -1,11 +1,21 @@
 import express from 'express';
-import bodyParser from 'body-parser'
+import bodyParser from 'body-parser';
 import axios from 'axios';
+import pg from 'pg';
 
 const app = express();
 const port = 3000;
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
+const db = new  pg.Client({
+    user: "postgres",
+    host: "localhost",
+    database: "music",
+    password: "106807",
+    port: 5432,
+})
+
+db.connect();
 
 app.get("/", (req, res) =>{
     res.render("index.ejs")
@@ -26,6 +36,17 @@ app.get("/search/results", async(req, res) =>{
     } catch (err){
         console.log(err)
     }  
+});
+
+app.post("/save", (req, res) =>{
+    const element = req.body;
+    console.log(element);
+    res.render("save.ejs", {element: element});
+});
+
+app.post("/add", async (req, res) =>{
+    const data = req.body;
+    console.log(data);
 });
 
 app.listen(port, () =>{
