@@ -89,6 +89,12 @@ main{
     padding: 1.5rem 1rem;
     border-radius: 1rem;
     padding-bottom: 3rem;
+    transition: 0.4s ease-in-out;
+}
+
+.song_box:hover{
+    transform: scale(1.03);
+    background-color: #1d1d1d;
 }
 
 .home_songs_pic{
@@ -142,4 +148,3 @@ main{
 .act-btn:hover img{
     transform: scale(1.2);
 }
-
