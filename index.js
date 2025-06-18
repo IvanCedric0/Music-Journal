@@ -64,6 +64,28 @@ app.post("/add", async (req, res) =>{
     
 });
 
+app.delete("/delete/:id", async (req, res) =>{
+    console.log("DELETE route hit for ID:", req.params.id);
+    const id = req.params.id;
+    try{
+        await db.query("DELETE FROM songs WHERE id = $1",[id]);
+        res.sendStatus(200);
+    }catch(err){
+        console.error("Something wrong happened", err)
+        res.sendStatus(500);
+    }
+});
+app.post("/edit/:id", async (req, res) =>{
+    const id = req.params.id;
+    const elements = req.body;
+    try {
+        await db.query("UPDATE songs SET notes= $1, rating= $2, updated_at = NOW() WHERE id = $3", [elements.notes, elements.rating, id]);
+        res.redirect("/");
+    }catch(err){
+        console.error("Something wrong happened", err)
+    }
+});
+
 app.listen(port, () =>{
     console.log(`Server running on port ${port}`)
 })

@@ -1,6 +1,43 @@
 </main>
 <footer>Copyright © <%= new Date().getFullYear() %>
 </footer>
+<script>
+    document.querySelectorAll('.delete-btn').forEach((button) =>{
+        button.addEventListener('click', async (e) =>{
+            const id = e.target.closest('button').dataset.id;
+            console.log('Clicked delete for ID:', id);
+            const confirmed = confirm('Are you sure you want to delete the song');
+            if(!confirmed) return;
+            try{
+                const res = await fetch(`/delete/${id}`, {
+                    method: 'DELETE',
+                });
+
+                if (res.ok){
+                    // reload to reflect change
+                    location.reload();
+                }else {
+                    alert("Failed to delete the song. Please try again");
+                }
+            }catch(err){
+                console.error("Error deleting song", err);
+                alert("Something went wrong");
+            }
+        });
+    });
+
+   function  handler(id) {
+    document.getElementById("form" +id).removeAttribute("hidden");
+    document.getElementById("notes" +id).setAttribute('hidden', 'true');
+    document.getElementById("rating" +id).setAttribute('hidden', 'true');
+   }
+    
+    function cancelHandler(id){
+        document.getElementById("form" +id).setAttribute("hidden", "true");
+    document.getElementById("notes" +id).removeAttribute('hidden');
+    document.getElementById("rating" +id).removeAttribute('hidden');
+    }
+</script>
 </body>
 
 </html>

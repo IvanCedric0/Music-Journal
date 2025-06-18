@@ -1,4 +1,5 @@
 <%- include('partials/header.ejs') %>
+<!-- Search Form -->
 <form action="/search/results" method="GET" class="search_form">
     <input class="search_input" type="text" name="term" id="term" placeholder="Look for a song or album to add  to your journal" autocomplete="off">
     <button type="submit" class="search_icon">
@@ -6,5 +7,35 @@
         width: 2rem;">
     </button>
 </form>
+<div class="songs_container">
+    <% songs.forEach((song) => { %>
+    <div  class="song_box" id="song_box<%= song.id %>">
+        <div class="song_info">
+            <img src="<%= song.cover_url %>" alt="" class="home_songs_pic">
+            <h1 class="home_song_title"><%= song.title %>-by <%= song.artist %></h1>
+            <h3 class="home_song_date">Added: <%= song.created_at %></h3>
+            <h3 id="rating<%= song.id %>" class="home_song_rating">Rating: <%= song.rating %>/5</h3>
+            <p id="notes<%= song.id %>" class="home_song_notes"><%= song.notes %></p>
 
+            <!-- Hidden edit fotm -->
+             <form id="form<%= song.id %>" action="/edit/<%= song.id %>" method="POST" class="edit-form" hidden>
+                <textarea id="input<%= song.id %>" name="notes"><%= song.notes %></textarea>
+                <label for="rating">Rating: </label>
+                <select id="input_rating<%= song.id %>" name="rating" >
+                    <% for (let i=1; i<=5; i++){ %>
+                        <option value="<%= i %>" <%= i === song.rating ? 'selected' : '' %> ><%= i %></option>
+                    <% } %>
+                </select>
+                <button id="save<%= song.id %>" type="submit" >Save</button>
+                <button id="cancel<%= song.id %>" type="button" class="cancel-btn" onclick="cancelHandler('<%= song.id%>')" >Cancel</button>
+             </form>
+        </div>
+
+        <div class="song_actions">
+            <button class="act-btn edit-btn"    data-id="<%= song.id %>" onclick="handler('<%= song.id %>')" ><img src="assets/editer.png" alt=""></button>
+            <button class="act-btn delete-btn"  data-id="<%= song.id %>"><img src="assets/supprimer.png" alt=""></button>
+        </div>
+    </div>
+    <% }) %>
+</div>
 <%- include('partials/footer.ejs') %>
