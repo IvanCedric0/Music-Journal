@@ -93,7 +93,7 @@ main{
 }
 
 .song_box:hover{
-    transform: scale(1.03);
+    transform: scale(1.01);
     background-color: #1d1d1d;
 }
 
