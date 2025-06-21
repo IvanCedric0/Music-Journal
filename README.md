@@ -51,10 +51,12 @@ This project was built after completing the **Authentication & Security module**
    PG_PORT=5432
    ```
 
-4. Run the server  
+4. Copy, paste and execute query.sql in you SQL command prompt
+
+5. Run the server  
    `npm start`
 
-5. Go to `http://localhost:3000`
+6. Go to `http://localhost:3000`
 
 ---
 
